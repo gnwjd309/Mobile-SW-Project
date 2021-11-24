@@ -9,9 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calendar">
-        <activity android:name=".ScheduleListActivity"></activity>
-        <activity android:name=".ScheduleDetailActivity" />
-        <activity android:name=".ScheduleAddActivity" />
+        <activity android:name=".ScheduleAddActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

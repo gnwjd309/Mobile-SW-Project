@@ -1,53 +1,76 @@
 package com.example.calendar;
 
-import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.FileOutputStream;
-import java.sql.Date;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewManager;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class ScheduleAddActivity extends AppCompatActivity {
 
-    Calendar myCalendar = Calendar.getInstance();
-
-    DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        }
-    };
+    LayoutInflater LayoutInflater;
+    LinearLayout Layout;
+    LinearLayout.LayoutParams LayoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_add);
+    }
 
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+    public void popup(View v){
+        LayoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Layout = (LinearLayout) LayoutInflater.inflate(R.layout.activity_schedule_add, null);
+        Layout.setBackgroundColor(Color.parseColor("#99000000"));
+        LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        addContentView(Layout, LayoutParams);
+        popup_scheduleAdd();
+    }
+
+    // 일정 추가 팝업
+    public void popup_scheduleAdd(){
+        //LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        Calendar myCalendar = Calendar.getInstance();
 
         // schedule_add_view 파일의 정보를 메모리에 올리기
-        View view = inflater.inflate(R.layout.activity_schedule_add, null);
+        View view = LayoutInflater.inflate(R.layout.activity_schedule_add, null);
         EditText scheduleID = view.findViewById(R.id.scheduleID);
         EditText scheduleDate = (EditText) view.findViewById(R.id.scheduleDate);
-        EditText scheduleTime = view.findViewById(R.id.scheduleTime);
+        EditText scheduleTime = (EditText) view.findViewById(R.id.scheduleTime);
         EditText scheduleMemo = view.findViewById(R.id.scheduleMemo);
+
+        DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+            private void updateLabel() {
+                String myFormat = "yyyy/MM/dd";    // 출력형식   2021/11/20
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
+
+                scheduleDate.setText(sdf.format(myCalendar.getTime()));
+            }
+        };
 
         scheduleDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +114,11 @@ public class ScheduleAddActivity extends AppCompatActivity {
                         Toast.makeText(ScheduleAddActivity.this, "일정이 저장되었습니다.", Toast.LENGTH_SHORT).show();
 
                         // 일정 저장
-                        //saveDiary(scheduleID, scheduleDate, scheduleTime, scheduleMemo);
+                        if(scheduleID != null) {
+
+                        } else {
+                            Toast.makeText(ScheduleAddActivity.this, "일정 제목을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -102,29 +129,12 @@ public class ScheduleAddActivity extends AppCompatActivity {
                 }).show();
     }
 
-    private void updateLabel() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2021/11/20
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
-        EditText scheduleDate = findViewById(R.id.scheduleDate);
-        scheduleDate.setText(sdf.format(myCalendar.getTime()));
+    // popup 안의 back 버튼을 누르면 실행
+    // 현재 레이아웃 위에 올렸던 popup 레이아웃을 지움 -> 현재 레이아웃으로 돌아옴
+    // popup 안에 만든 버튼의 실행 함수는 다 popup을 띄우는 레이아웃에 작성해야 함
+    // 따로 popup activity를 연결하는 자바 클래스를 생성하지 않음
+    public void backPage(View v){
+        ((ViewManager) Layout.getParent()).removeView(Layout);
     }
-/*
-    // 일정 저장하기
-    @SuppressLint("WrongConstant")
-    public void saveDiary(EditText scheduleID, EditText scheduleDate, EditText scheduleTime, EditText scheduleMemo)
-    {
-        FileOutputStream fos;
-        try
-        {
-            fos = openFileOutput(readDay, MODE_NO_LOCALIZED_COLLATORS);
-            String content = contextEditText.getText().toString();
-            fos.write((content).getBytes());
-            fos.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }*/
+
 }

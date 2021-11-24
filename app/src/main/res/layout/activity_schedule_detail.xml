@@ -90,6 +90,7 @@
         android:id="@+id/keywordText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="키워드"
         app:layout_constraintTop_toBottomOf="@+id/scheduleMemo"
         app:layout_constraintBottom_toTopOf="@+id/notedatail_Btn"
         />
@@ -103,5 +104,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="right"
         android:text="노트 자세히" />
+
+        <Button
+            android:id="@+id/cancel_Btn"
+            android:onClick="backPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/save_Btn"
+            android:text="취소" />
+
+        <Button
+            android:id="@+id/save_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/cancel_Btn"
+            android:text="저장" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

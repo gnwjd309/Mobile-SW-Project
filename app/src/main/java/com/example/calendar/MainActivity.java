@@ -1,36 +1,53 @@
 package com.example.calendar;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
 {
-    public String readDay = null;
-    public String str = null;
+    String scheduleID;
+    String scheduleDate;
+    String scheduleTime;
+    String scheduleMemo;
+
+    String date = null;
+
     public CalendarView calendarView;
-    public Button cha_Btn, del_Btn, save_Btn, addBtn;
-    public TextView diaryTextView, textView2, textView3;
-    public EditText contextEditText;
+    public TextView diaryTextView;
+
+    ListView listview;
+    LinearLayout Layout;
+    LayoutInflater LayoutInflater;
+    LinearLayout.LayoutParams LayoutParams;
+
+    ArrayList<ScheduleDTO> arrayList;
+    ScheduleListAdapter arrayAdapter;
+    ArrayList<String> items = new ArrayList<String>();
+    ArrayAdapter adapter;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -39,164 +56,135 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        calendarView = findViewById(R.id.calendarView);
+        calendarView = findViewById(R.id.calenderView);
         diaryTextView = findViewById(R.id.diaryTextView);
-        save_Btn = findViewById(R.id.save_Btn);
-        del_Btn = findViewById(R.id.del_Btn);
-        cha_Btn = findViewById(R.id.cha_Btn);
-        addBtn = findViewById(R.id.scheduleAdd_Btn);
-        textView2 = findViewById(R.id.textView2);
-        textView3 = findViewById(R.id.textView3);
-        contextEditText = findViewById(R.id.contextEditText);
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener()
-        {
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_single_choice, items) ;
+        listview = (ListView) findViewById(R.id.listView);
+        listview.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+    }
+
+    // 메인에서 + 버튼을 누르면 실행되는 일정 추가에 대한 팝업
+    public void popup_scheduleAdd(View v){
+        LayoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Layout = (LinearLayout) LayoutInflater.inflate(R.layout.activity_schedule_add, null);
+        //Layout.setBackgroundColor(Color.parseColor("#99000000"));
+        LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        addContentView(Layout, LayoutParams);
+
+        Calendar myCalendar = Calendar.getInstance();
+
+        EditText scheduleID_et = Layout.findViewById(R.id.scheduleID_et);
+        EditText scheduleDate_et = (EditText) Layout.findViewById(R.id.scheduleDate_et);
+        EditText scheduleTime_et = (EditText) Layout.findViewById(R.id.scheduleTime_et);
+        EditText scheduleMemo_et = Layout.findViewById(R.id.scheduleMemo_et);
+        Button record_Btn = Layout.findViewById(R.id.record_Btn);
+        Button save_Btn = Layout.findViewById(R.id.save_Btn);
+
+        DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth)
-            {
-                diaryTextView.setVisibility(View.VISIBLE);
-                save_Btn.setVisibility(View.VISIBLE);
-                contextEditText.setVisibility(View.VISIBLE);
-                textView2.setVisibility(View.INVISIBLE);
-                cha_Btn.setVisibility(View.INVISIBLE);
-                del_Btn.setVisibility(View.INVISIBLE);
-                diaryTextView.setText(String.format("%d / %d / %d", year, month + 1, dayOfMonth));
-                contextEditText.setText("");
-                checkDay(year, month, dayOfMonth);
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
             }
-        });
 
-        save_Btn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                saveDiary(readDay);
-                str = contextEditText.getText().toString();
-                textView2.setText(str);
-                save_Btn.setVisibility(View.INVISIBLE);
-                cha_Btn.setVisibility(View.VISIBLE);
-                del_Btn.setVisibility(View.VISIBLE);
-                contextEditText.setVisibility(View.INVISIBLE);
-                textView2.setVisibility(View.VISIBLE);
+            private void updateLabel() {
+                String myFormat = "yyyy/MM/dd";    // 출력형식   2021/11/20
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
+                scheduleDate_et.setText(sdf.format(myCalendar.getTime()));
             }
-        });
+        };
 
-        // 추가 버튼 클릭 시 일정 추가 화면으로 전환
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        scheduleDate_et.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ScheduleAddActivity.class);
-                startActivity(intent);
+                new DatePickerDialog(MainActivity.this, myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        scheduleTime_et.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String state = "AM";
+                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
+                        if (selectedHour > 12) {
+                            selectedHour -= 12;
+                            state = "PM";
+                        }
+                        // EditText에 출력할 형식 지정
+                        scheduleTime_et.setText(state + " " + selectedHour + "시 " + selectedMinute + "분");
+                    }
+                }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
+
+        // 저장 버튼 클릭 리스너
+        save_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 팝업에서 입력 받은 값 저장
+                //arrayList.add(new ScheduleDTO("회의"));
+
+                scheduleID = scheduleID_et.getText().toString();
+                scheduleTime = scheduleTime_et.getText().toString();
+                scheduleMemo = scheduleMemo_et.getText().toString();
+                Toast.makeText(MainActivity.this, scheduleID + "일정이 저장되었습니다.", Toast.LENGTH_SHORT);
+                ((ViewManager) Layout.getParent()).removeView(Layout);
+            }
+        });
+
+    }
+
+    // 리스트뷰 클릭 시 일정 상세보기 팝업
+    public void popup_scheduleDetail(View v) {
+        LayoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Layout = (LinearLayout) LayoutInflater.inflate(R.layout.activity_schedule_detail, null);
+        //Layout.setBackgroundColor(Color.parseColor("#99000000"));
+        LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        addContentView(Layout, LayoutParams);
+
+        arrayList = new ArrayList<>();
+
+        // arrayList에 항목 추가
+
+        arrayAdapter = new ScheduleListAdapter(arrayList);
+
+        listview = (ListView) findViewById((R.id.listView));
+        listview.setAdapter(arrayAdapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
             }
         });
     }
 
-    // 일정 읽어오기
-    public void checkDay(int cYear, int cMonth, int cDay)
-    {
-        readDay = "" + cYear + "-" + (cMonth + 1) + "" + "-" + cDay + ".txt";
-        FileInputStream fis;
+    // popup 안의 녹음 추가하기 버튼을 누르면 실행
+     public void record() {
 
-        try
-        {
-            fis = openFileInput(readDay);
+     }
 
-            byte[] fileData = new byte[fis.available()];
-            fis.read(fileData);
-            fis.close();
-
-            str = new String(fileData);
-
-            contextEditText.setVisibility(View.INVISIBLE);
-            textView2.setVisibility(View.VISIBLE);
-            textView2.setText(str);
-
-            save_Btn.setVisibility(View.INVISIBLE);
-            cha_Btn.setVisibility(View.VISIBLE);
-            del_Btn.setVisibility(View.VISIBLE);
-
-            cha_Btn.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    contextEditText.setVisibility(View.VISIBLE);
-                    textView2.setVisibility(View.INVISIBLE);
-                    contextEditText.setText(str);
-
-                    save_Btn.setVisibility(View.VISIBLE);
-                    cha_Btn.setVisibility(View.INVISIBLE);
-                    del_Btn.setVisibility(View.INVISIBLE);
-                    textView2.setText(contextEditText.getText());
-                }
-
-            });
-            del_Btn.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    textView2.setVisibility(View.INVISIBLE);
-                    contextEditText.setText("");
-                    contextEditText.setVisibility(View.VISIBLE);
-                    save_Btn.setVisibility(View.VISIBLE);
-                    cha_Btn.setVisibility(View.INVISIBLE);
-                    del_Btn.setVisibility(View.INVISIBLE);
-                    removeDiary(readDay);
-                }
-            });
-            if (textView2.getText() == null)
-            {
-                textView2.setVisibility(View.INVISIBLE);
-                diaryTextView.setVisibility(View.VISIBLE);
-                save_Btn.setVisibility(View.VISIBLE);
-                cha_Btn.setVisibility(View.INVISIBLE);
-                del_Btn.setVisibility(View.INVISIBLE);
-                contextEditText.setVisibility(View.VISIBLE);
-            }
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("WrongConstant")
-    public void removeDiary(String readDay)
-    {
-        FileOutputStream fos;
-        try
-        {
-            fos = openFileOutput(readDay, MODE_NO_LOCALIZED_COLLATORS);
-            String content = "";
-            fos.write((content).getBytes());
-            fos.close();
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("WrongConstant")
-    public void saveDiary(String readDay)
-    {
-        FileOutputStream fos;
-        try
-        {
-            fos = openFileOutput(readDay, MODE_NO_LOCALIZED_COLLATORS);
-            String content = contextEditText.getText().toString();
-            fos.write((content).getBytes());
-            fos.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+   // popup 안의 취소 버튼을 누르면 실행
+    // 현재 레이아웃 위에 올렸던 popup 레이아웃을 지움 -> 현재 레이아웃으로 돌아옴
+    // popup 안에 만든 버튼의 실행 함수는 다 popup을 띄우는 레이아웃에 작성해야 함
+    // 따로 popup activity를 연결하는 자바 클래스를 생성하지 않음
+    public void backPage(View v){
+        ((ViewManager) Layout.getParent()).removeView(Layout);
     }
 
 }
