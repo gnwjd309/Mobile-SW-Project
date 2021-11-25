@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="139dp"
+        android:layout_height="38dp"
+        android:text="파일접근권한"
+        android:textSize="23sp"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="361dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="177dp"
+        android:layout_height="38dp"
+        android:text="개인정보처리방침"
+        android:textSize="23sp"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="227dp" />
+
+    <ImageView
+        android:id="@+id/imageView20"
+        android:layout_width="35dp"
+        android:layout_height="38dp"
+        app:srcCompat="@drawable/ic_downarrow_121316"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="296dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="139dp"
+        android:layout_height="38dp"
+        android:text="이용약관"
+        android:textSize="23sp"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="35dp"
+        android:layout_height="38dp"
+        app:srcCompat="@drawable/ic_downarrow_121316"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="35dp"
+        android:layout_height="38dp"
+        app:srcCompat="@drawable/ic_downarrow_121316"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="227dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="139dp"
+        android:layout_height="38dp"
+        android:text="녹음권한"
+        android:textSize="23sp"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="296dp" />
+
+    <ImageView
+        android:id="@+id/imageView21"
+        android:layout_width="35dp"
+        android:layout_height="38dp"
+        app:srcCompat="@drawable/ic_downarrow_121316"
+        tools:layout_editor_absoluteX="360dp"
+        tools:layout_editor_absoluteY="361dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="154dp"
+        android:layout_height="46dp"
+        android:text="사용자이름"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="172dp"
+        tools:layout_editor_absoluteY="47dp" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="계정"
+        tools:layout_editor_absoluteX="172dp"
+        tools:layout_editor_absoluteY="93dp" />
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="32dp"
+        android:layout_height="39dp"
+        app:srcCompat="@drawable/ic__592841_cog_gear_general_machine_office_setting_settings_107765"
+        tools:layout_editor_absoluteX="349dp"
+        tools:layout_editor_absoluteY="664dp" />
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="32dp"
+        android:layout_height="39dp"
+        app:srcCompat="@drawable/ic_bell_alarm_icon_142909"
+        tools:layout_editor_absoluteX="317dp"
+        tools:layout_editor_absoluteY="664dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
