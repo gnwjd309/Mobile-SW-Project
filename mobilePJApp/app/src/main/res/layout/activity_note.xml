@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:onClick="back"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/baseline_arrow_back_36"
+            android:text="뒤로가기"
+            app:backgroundTint="#00ff0000" />
+
+        <TextView
+            android:id="@+id/tv_noteName"
+            android:layout_width="295dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/jua"
+            android:text="노트이름"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_search"
+            app:layout_constraintHorizontal_bias="0.406"
+            app:layout_constraintStart_toEndOf="@+id/btn_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_edit"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/baseline_edit_24"
+            android:layout_marginTop="13dp"
+            android:textSize="14sp"
+            app:backgroundTint="#00ff0000"
+            android:onClick="btnClick" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_noteView"
+            style="?android:borderlessButtonStyle"
+            android:layout_width="136dp"
+            android:layout_height="55dp"
+            android:fontFamily="@font/jua"
+            android:text="음성기록"
+            android:textColor="#1E1E1E"
+            android:textSize="20dp"
+            android:onClick="btnClick" />
+
+        <Button
+            android:id="@+id/btn_noteMemo"
+            style="?android:borderlessButtonStyle"
+            android:layout_width="136dp"
+            android:layout_height="55dp"
+            android:text="메모"
+            android:fontFamily="@font/jua"
+            android:textColor="#1E1E1E"
+            android:textSize="20dp"
+            android:onClick="btnClick" />
+
+        <Button
+            android:id="@+id/btn_summary"
+            style="?android:borderlessButtonStyle"
+            android:layout_width="136dp"
+            android:layout_height="55dp"
+            android:text="요약"
+            android:fontFamily="@font/jua"
+            android:textColor="#1E1E1E"
+            android:textSize="20dp"
+            android:onClick="btnClick" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bar"
+            android:layout_width="135dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="-13dp"
+            android:layout_marginEnd="275dp"
+            android:layout_marginRight="275dp"
+            android:enabled="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:id="@+id/sv_note"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarFadeDuration="0"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="370dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:background="@drawable/item_radius"
+            android:backgroundTint="#E1E1E1"
+            android:gravity="center">
+            <ListView
+                android:id="@+id/listview"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:dividerHeight="0px"
+                android:divider="#FFFFFF"
+                android:layout_width="350dp"
+                android:layout_height="420dp"
+                android:descendantFocusability="blocksDescendants"
+                tools:listitem="@layout/listview_custom"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/btn_restart"
+                android:layout_width="80dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/baseline_restart_alt_24"
+                app:backgroundTint="#00ff0000"
+                android:onClick="btnClick" />
+
+            <ImageButton
+                android:id="@+id/btn_start"
+                android:layout_width="80dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/baseline_play_arrow_24"
+                app:backgroundTint="#00ff0000"
+                android:onClick="btnClick" />
+
+            <ImageButton
+                android:id="@+id/btn_pause"
+                android:layout_width="80dp"
+                android:layout_height="55dp"
+                android:src="@drawable/baseline_pause_24"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:backgroundTint="#00ff0000"
+                android:onClick="btnClick" />
+
+            <ImageButton
+                android:id="@+id/btn_stop"
+                android:layout_width="80dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/baseline_stop_24"
+                app:backgroundTint="#00ff0000"
+                android:onClick="btnClick" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

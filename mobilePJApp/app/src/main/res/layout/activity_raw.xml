@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#99000000"
+    android:gravity="center"
+    android:onClick="backPage3"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="true">
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="450dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:onClick="test"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="개인정보처리방침"
+                android:textSize="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/jua"/>
+            <ScrollView
+                android:layout_width="250dp"
+                android:layout_height="280dp">
+                <TextView
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_gravity="center"
+                    android:text="[ RECANDO 은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
+제1조(개인정보의 처리 목적)
+1. 홈페이지 회원가입 및 관리
+회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 식별·인증, 회원자격 유지·관리, 서비스 부정이용 방지 목적으로 개인정보를 처리합니다.
+2. 재화 또는 서비스 제공
+서비스 제공, 콘텐츠 제공, 맞춤서비스 제공, 본인인증을 목적으로 개인정보를 처리합니다.
+제2조(개인정보의 처리 및 보유 기간)
+① [ RECANDO ]은(는) 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다.
+제3조(개인정보의 파기)
+③ 개인정보 파기의 절차 및 방법은 다음과 같습니다.
+1. 파기절차
+[  RECANDO ]은(는) 파기 사유가 발생한 개인정보를 선정하고, [ RECANDO ]의 개인정보 보호책임자의 승인을 받아 개인정보를 파기합니다.
+2. 파기방법
+전자적 파일 형태의 정보는 기록을 재생할 수 없는 기술적 방법을 사용합니다."
+                    android:textSize="10dp"/>
+
+            </ScrollView>
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:letterSpacing="0.2"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/jua"/>
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:id="@+id/ok"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:letterSpacing="0.2"
+                    android:textColor="@color/black"
+                    android:onClick="backPage3"
+                    android:text="확인"
+                    android:fontFamily="@font/jua" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
